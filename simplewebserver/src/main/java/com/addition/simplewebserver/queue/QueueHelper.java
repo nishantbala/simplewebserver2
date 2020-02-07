@@ -18,7 +18,7 @@ public class QueueHelper {
 	
 	private static Queue<BigInteger> queue = new LinkedList<>(); 
 	private static boolean canRespond = false;
-	private static boolean canDelete = true;
+	private static boolean canUpdate = true;
 	private static BigInteger result = BigInteger.ZERO;
 	
 	private QueueHelper() {
@@ -29,22 +29,33 @@ public class QueueHelper {
     	result = BigInteger.ZERO;
 	}
 	
-    public static void addNumberToQueue(BigInteger number) {
-    	canRespond = false;
-    	if(queue.add(number)) {
-    		logger.info("Successfully Added Number to Queue, {}", number);
+    public static void addNumberToQueue(BigInteger number) throws AdditionException {
+    	if(canUpdate) {
+    		canRespond = false;
+        	if(queue.add(number)) {
+        		logger.info("Successfully Added Number to Queue, {}", number);
+        	}
+    	} else {
+    		try {
+				TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				throw new AdditionException(e.getMessage());
+			}
+    		addNumberToQueue(number);
     	}
+    	
     }
     
     public static BigInteger getSum() {
     	BigInteger sum = BigInteger.ZERO;
     	if(!queue.isEmpty()) {
     		for (BigInteger item: queue) {
+    			canUpdate = false;
         		sum = sum.add(item);
-        		canDelete = false;
     		}
     	}
-    	canDelete = true;
+    	canUpdate = true;
     	canRespond = true;
     	return sum;
     }
@@ -55,15 +66,17 @@ public class QueueHelper {
     
     public static BigInteger getSumAndForget() throws AdditionException {
     	for (BigInteger item: queue) {
+    		canUpdate = false;
     		result = result.add(item);
 		}
+    	canUpdate = true;
     	deleteEntries();
         canRespond = true;
         return result;	
     }
     
     private static void deleteEntries() throws AdditionException {
-    	if(canDelete) {
+    	if(canUpdate) {
     		queue.clear();
     		logger.info("Cleared all entries from queue");
     	} else {

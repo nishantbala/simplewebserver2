@@ -20,7 +20,7 @@ public class QueueHelperTest {
     }
     
     @Test
-    public void testAddNumberToQueue() {
+    public void testAddNumberToQueue() throws AdditionException {
     	QueueHelper.addNumberToQueue(BigInteger.valueOf(10000));
     	boolean result = QueueHelper.getSum().equals(BigInteger.valueOf(10000));
     	assertTrue(result);
