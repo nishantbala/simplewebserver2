@@ -44,7 +44,7 @@ Provide tests as well
 
 	1. Test scripts are available \simplewebserver\testscripts folder
 	3.To test in a tomcat server,
-		a. goto \server\testscripts folder, 
+		a. goto \simplewebserver\testscripts folder, 
 		b. execute sh testdata-tomcat.sh in a terminal
 		c. execute sh end-tomcat.sh in another terminal
 	4. These commands work only in Linux/Unix environments
