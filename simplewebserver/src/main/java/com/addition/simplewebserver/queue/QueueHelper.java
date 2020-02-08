@@ -2,8 +2,8 @@ package com.addition.simplewebserver.queue;
 
 import java.lang.invoke.MethodHandles;
 import java.math.BigInteger;
-import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
@@ -16,7 +16,7 @@ public class QueueHelper {
 	
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass().getSimpleName());
 	
-	private static Queue<BigInteger> queue = new LinkedList<>(); 
+	private static Queue<BigInteger> queue = new ConcurrentLinkedQueue<>(); 
 	private static boolean canRespond = false;
 	private static boolean canUpdate = true;
 	private static BigInteger result = BigInteger.ZERO;
